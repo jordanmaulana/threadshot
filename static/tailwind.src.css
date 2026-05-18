@@ -5,38 +5,64 @@
 @source "../app/renderer.py";
 
 @theme {
-  --color-paper: #faf8f3;
-  --color-paper-2: #f3efe5;
-  --color-ink: #0d0d0c;
-  --color-mute: #6b6863;
-  --color-hairline: #e8e3d8;
+  --color-bg: #0a0a0a;
+  --color-surface: #141414;
+  --color-surface-2: #1c1c1c;
+  --color-border: rgba(255, 255, 255, 0.08);
+  --color-border-strong: rgba(255, 255, 255, 0.16);
+  --color-ink: #ededed;
+  --color-mute: #9a9a9a;
+  --color-mute-2: #6a6a6a;
+  --color-danger: #ff5a4d;
   --color-accent: #b8410b;
-  --color-accent-soft: #f4e2d5;
-  --color-card-ink: #0a0a0a;
 
-  --font-display: "Instrument Serif", ui-serif, Georgia, "Times New Roman", serif;
   --font-sans: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", "Helvetica Neue", system-ui, sans-serif;
-
-  --tracking-eyebrow: 0.18em;
 }
 
 @layer base {
   body {
     font-feature-settings: "ss01", "cv11";
+    -webkit-font-smoothing: antialiased;
   }
+  a { color: inherit; }
 }
 
 @layer components {
-  .eyebrow {
-    font-family: var(--font-sans);
-    font-size: 11px;
-    font-weight: 600;
-    letter-spacing: var(--tracking-eyebrow);
-    text-transform: uppercase;
-    color: var(--color-mute);
-  }
-  .hairline-rule {
+  .t-input {
+    background: transparent;
+    color: var(--color-ink);
     border: 0;
-    border-top: 1px solid var(--color-hairline);
+    outline: none;
+    width: 100%;
+    font-size: 15px;
+    line-height: 1.5;
   }
+  .t-input::placeholder { color: var(--color-mute-2); }
+  .t-pill {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 0.625rem 1.125rem;
+    border-radius: 9999px;
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 1;
+    transition: background-color 120ms ease, color 120ms ease, border-color 120ms ease, opacity 120ms ease;
+    text-decoration: none;
+    cursor: pointer;
+  }
+  .t-pill-primary {
+    background: var(--color-ink);
+    color: #000;
+    border: 1px solid var(--color-ink);
+  }
+  .t-pill-primary:hover { background: #fff; }
+  .t-pill-primary:disabled { opacity: 0.55; cursor: not-allowed; }
+  .t-pill-ghost {
+    background: transparent;
+    color: var(--color-ink);
+    border: 1px solid var(--color-border-strong);
+  }
+  .t-pill-ghost:hover { background: var(--color-surface-2); }
 }

@@ -1,39 +1,44 @@
-<figure class="m-0 animate-[fadeUp_0.5s_cubic-bezier(0.16,1,0.3,1)]">
+<article class="animate-[fadeUp_0.45s_cubic-bezier(0.16,1,0.3,1)] border border-border rounded-2xl bg-surface px-5 pt-4 pb-5">
   <style>
     @keyframes fadeUp {
-      from { opacity: 0; transform: translateY(8px); }
+      from { opacity: 0; transform: translateY(6px); }
       to   { opacity: 1; transform: translateY(0); }
     }
   </style>
 
-  <p class="eyebrow mb-4 flex items-center gap-3">
-    <span class="inline-block w-2 h-2 rounded-full bg-accent"></span>
-    Ready
+  <header class="flex items-center gap-2.5">
+    <span aria-hidden="true" class="inline-block w-[34px] h-[34px] rounded-full bg-bg border border-border-strong flex items-center justify-center">
+      <span class="block w-2.5 h-2.5 rounded-[3px] bg-accent"></span>
+    </span>
+    <span class="text-[14px] font-semibold text-ink">@threadshot</span>
+    <span class="text-mute-2 text-[13px]">· now</span>
+    <span class="ml-auto text-mute-2 text-lg leading-none tracking-[2px]">···</span>
+  </header>
+
+  <p class="ml-[44px] mt-1 text-[14.5px] text-ink/90 leading-snug">
+    PNG ready for <span class="text-mute">@{{ post.handle }}</span>.
   </p>
 
-  <div class="relative inline-block max-w-full">
+  <div class="ml-[44px] mt-3">
     <img src="data:image/png;base64,{{ img_b64 }}"
          alt="Screenshot of {{ post.author }}'s post"
-         class="block max-w-full rounded-2xl shadow-[0_24px_70px_-24px_rgba(13,13,12,0.35),0_2px_6px_-2px_rgba(13,13,12,0.08)]">
+         class="block max-w-full rounded-[14px] border border-border">
   </div>
 
-  <figcaption class="mt-5">
-    <p class="font-display italic text-mute text-[14px] mb-4">{{ post.handle }}-{{ post.url.split('/')[-1] }}.png</p>
-    <div class="flex flex-wrap gap-3 items-center">
-      <a href="data:image/png;base64,{{ img_b64 }}"
-         download="{{ post.handle }}-{{ post.url.split('/')[-1] }}.png"
-         class="inline-flex items-center gap-2 px-5 py-2.5 bg-ink text-paper text-[14px] font-semibold rounded-full hover:bg-accent transition-colors no-underline">
-        Download PNG
-        <span aria-hidden="true">&darr;</span>
-      </a>
-      <a href="{{ post.url }}" target="_blank" rel="noopener noreferrer"
-         class="inline-flex items-center gap-2 px-5 py-2.5 bg-paper text-ink text-[14px] font-semibold rounded-full border border-hairline hover:border-ink transition-colors no-underline">
-        Open on Threads
-        <span aria-hidden="true">&#8599;</span>
-      </a>
-      <a href="/" class="ml-2 text-[13px] text-mute hover:text-accent transition-colors no-underline">
-        Shoot another &rarr;
-      </a>
-    </div>
-  </figcaption>
-</figure>
+  <div class="ml-[44px] mt-4 flex flex-wrap items-center gap-2.5">
+    <a href="data:image/png;base64,{{ img_b64 }}"
+       download="{{ post.handle }}-{{ post.url.split('/')[-1] }}.png"
+       class="t-pill t-pill-primary">
+      Download PNG
+      <span aria-hidden="true">&darr;</span>
+    </a>
+    <a href="{{ post.url }}" target="_blank" rel="noopener noreferrer"
+       class="t-pill t-pill-ghost">
+      Open on Threads
+      <span aria-hidden="true">&#8599;</span>
+    </a>
+    <a href="/" class="ml-1 text-[13px] text-mute hover:text-ink transition-colors no-underline">
+      Shoot another &rarr;
+    </a>
+  </div>
+</article>

@@ -1,4 +1,7 @@
-<div role="alert" class="bg-paper-2/60 border-l-4 border-accent pl-5 pr-6 py-4 rounded-r-xl rounded-l-sm">
-  <p class="eyebrow text-accent mb-1">Couldn't shoot.</p>
-  <p class="text-[15px] text-ink leading-snug">{{ message }}</p>
+<div role="alert" class="flex items-start gap-3 border border-border rounded-2xl bg-surface px-5 py-4">
+  <span aria-hidden="true" class="mt-1.5 inline-block w-2 h-2 rounded-full bg-danger shrink-0"></span>
+  <div class="flex-1 min-w-0">
+    <p class="text-[13px] font-semibold text-danger">Couldn't shoot</p>
+    <p class="mt-0.5 text-[14.5px] text-ink/90 leading-snug">{{ message }}</p>
+  </div>
 </div>

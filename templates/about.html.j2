@@ -2,25 +2,22 @@
 {% block title %}About — Threadshot{% endblock %}
 
 {% block body %}
-<section class="max-w-3xl mx-auto px-6 md:px-10 pt-16 md:pt-24">
-  <p class="eyebrow mb-4">About</p>
-  <h1 class="font-display text-ink leading-[1] tracking-tight text-[clamp(2.25rem,5vw,3.75rem)]">
-    Threads, <em class="italic text-accent">framed.</em>
+<section class="max-w-[640px] mx-auto px-5 pt-12 md:pt-16">
+  <h1 class="text-ink text-[28px] md:text-[32px] font-semibold tracking-tight leading-[1.1]">
+    About
   </h1>
 
-  <div class="mt-10 space-y-5 text-[17px] leading-relaxed text-ink/85 max-w-[62ch]">
+  <div class="mt-6 space-y-4 text-[15px] leading-relaxed text-ink/85">
     <p>
-      Threadshot turns any public Threads post into a clean PNG image you can share. Paste the post URL on the home page and download the screenshot.
+      Threadshot turns any public Threads post into a clean PNG you can share. Paste the post URL on the home page and download the screenshot.
     </p>
     <p class="text-mute">
       Under the hood we render the post in a real headless Chromium with avatars and media inlined, so the image is self-contained — no broken links a week later, no Threads chrome around the edges, just the post.
     </p>
   </div>
 
-  <hr class="hairline-rule my-10">
-
-  <a href="/" class="inline-flex items-center gap-2 text-[14px] text-ink hover:text-accent transition-colors no-underline">
-    <span aria-hidden="true">&larr;</span> Back to the shooter
+  <a href="/" class="mt-8 inline-flex items-center gap-1.5 text-[14px] text-mute hover:text-ink transition-colors no-underline">
+    <span aria-hidden="true">&larr;</span> Back
   </a>
 </section>
 {% endblock %}
