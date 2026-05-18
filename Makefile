@@ -1,4 +1,4 @@
-.PHONY: help install start stop restart status logs dev test clean
+.PHONY: help install install-css css css-watch start stop restart status logs dev test clean
 
 PORT ?= 8000
 HOST ?= 127.0.0.1
@@ -12,6 +12,15 @@ help:                                   ## Show targets
 install:                                ## Install deps + chromium
 	uv sync
 	uv run playwright install chromium
+
+install-css:                            ## Install Tailwind toolchain (one-time)
+	npm install
+
+css:                                    ## Build static/tailwind.css (minified)
+	npx @tailwindcss/cli -i static/tailwind.src.css -o static/tailwind.css --minify
+
+css-watch:                              ## Rebuild static/tailwind.css on template change
+	npx @tailwindcss/cli -i static/tailwind.src.css -o static/tailwind.css --watch
 
 start:                                  ## Start uvicorn in background on :$(PORT)
 	@mkdir -p $(RUN_DIR); \

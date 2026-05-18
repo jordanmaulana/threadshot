@@ -1,0 +1,14 @@
+{
+  "name": "threadshot",
+  "version": "0.0.0",
+  "private": true,
+  "description": "Tailwind build tooling for Threadshot",
+  "scripts": {
+    "build:css": "tailwindcss -i static/tailwind.src.css -o static/tailwind.css --minify",
+    "watch:css": "tailwindcss -i static/tailwind.src.css -o static/tailwind.css --watch"
+  },
+  "devDependencies": {
+    "@tailwindcss/cli": "^4.0.0",
+    "tailwindcss": "^4.0.0"
+  }
+}

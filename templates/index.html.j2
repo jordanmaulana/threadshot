@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Threadshot — Screenshot Threads posts</title>
   <meta name="description" content="Paste a Threads URL, get a clean screenshot image you can share anywhere.">
-  <link rel="stylesheet" href="/static/styles.css">
+  <link rel="stylesheet" href="/static/tailwind.css">
   <script src="https://unpkg.com/htmx.org@2.0.3"></script>
   {% if adsense_client %}
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client={{ adsense_client }}"
@@ -21,36 +21,52 @@
   </script>
   {% endif %}
 </head>
-<body>
-  <header>
-    <h1>Threadshot</h1>
-    <p class="tag">Paste a Threads post URL. Get a clean screenshot.</p>
+<body class="bg-neutral-50 text-neutral-900 antialiased">
+  <header class="max-w-3xl mx-auto px-5 pt-12 pb-2">
+    <h1 class="m-0 text-3xl font-semibold tracking-tight">Threadshot</h1>
+    <p class="mt-1.5 text-neutral-500">Paste a Threads post URL. Get a clean screenshot.</p>
   </header>
 
   {% if adsense_client %}
-  <ins class="adsbygoogle" style="display:block" data-ad-client="{{ adsense_client }}"
-       data-ad-slot="0000000000" data-ad-format="auto" data-full-width-responsive="true"></ins>
-  <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+  <div class="max-w-3xl mx-auto px-5">
+    <ins class="adsbygoogle block" style="display:block" data-ad-client="{{ adsense_client }}"
+         data-ad-slot="0000000000" data-ad-format="auto" data-full-width-responsive="true"></ins>
+    <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+  </div>
   {% endif %}
 
-  <main>
-    <form hx-post="/shot" hx-target="#result" hx-swap="innerHTML" hx-indicator="#spin">
-      <input type="url" name="url" placeholder="https://www.threads.com/@user/post/..." required>
-      <button type="submit">Screenshot</button>
-      <span id="spin" class="htmx-indicator">…</span>
+  <main class="max-w-3xl mx-auto px-5 py-6">
+    <form hx-post="/shot" hx-target="#result" hx-swap="innerHTML" hx-disabled-elt="find button"
+          class="flex flex-wrap items-center gap-2 my-4">
+      <input type="url" name="url" required
+             placeholder="https://www.threads.com/@user/post/..."
+             class="flex-1 min-w-0 basis-80 px-3.5 py-3 text-[15px] bg-white border border-neutral-200 rounded-xl placeholder:text-neutral-400 focus:outline-none focus:ring-2 focus:ring-neutral-900 focus:border-neutral-900">
+      <button type="submit"
+              class="group inline-flex items-center justify-center gap-2 px-4 py-3 text-[15px] font-semibold text-white bg-neutral-900 rounded-xl cursor-pointer transition-colors hover:bg-neutral-800 disabled:bg-neutral-500 disabled:cursor-not-allowed disabled:opacity-70">
+        <svg class="hidden group-disabled:inline animate-spin h-4 w-4" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"/>
+          <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"/>
+        </svg>
+        <span class="group-disabled:hidden">Screenshot</span>
+        <span class="hidden group-disabled:inline">Screenshotting…</span>
+      </button>
     </form>
-    {% if message %}<p class="msg">{{ message }}</p>{% endif %}
-    <section id="result"></section>
+    {% if message %}<p class="text-red-700">{{ message }}</p>{% endif %}
+    <section id="result" class="mt-2"></section>
   </main>
 
   {% if adsense_client %}
-  <ins class="adsbygoogle" style="display:block" data-ad-client="{{ adsense_client }}"
-       data-ad-slot="1111111111" data-ad-format="auto" data-full-width-responsive="true"></ins>
-  <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+  <div class="max-w-3xl mx-auto px-5">
+    <ins class="adsbygoogle block" style="display:block" data-ad-client="{{ adsense_client }}"
+         data-ad-slot="1111111111" data-ad-format="auto" data-full-width-responsive="true"></ins>
+    <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+  </div>
   {% endif %}
 
-  <footer>
-    <a href="/about">About</a> · <a href="/privacy">Privacy</a>
+  <footer class="max-w-3xl mx-auto px-5 pb-12 pt-6 text-sm text-neutral-500">
+    <a href="/about" class="text-neutral-600 hover:text-neutral-900 underline-offset-2 hover:underline">About</a>
+    <span class="mx-1">·</span>
+    <a href="/privacy" class="text-neutral-600 hover:text-neutral-900 underline-offset-2 hover:underline">Privacy</a>
   </footer>
 
   {% if ga_measurement_id %}
