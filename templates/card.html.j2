@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body {
+    background: transparent;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Helvetica Neue", system-ui, sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+  body { padding: 24px; }
+  #card {
+    width: 552px;
+    background: #101010;
+    color: #f3f3f3;
+    border: 1px solid #262626;
+    border-radius: 18px;
+    padding: 14px 18px 12px;
+  }
+  .row1 {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .avatar {
+    width: 36px; height: 36px;
+    border-radius: 50%;
+    object-fit: cover;
+    background: #242424;
+    flex-shrink: 0;
+  }
+  .handle { font-weight: 700; font-size: 15px; color: #fff; }
+  .time { color: #777; font-size: 14px; margin-left: 2px; }
+  .menu {
+    margin-left: auto;
+    color: #777;
+    font-size: 20px;
+    line-height: 0;
+    letter-spacing: 2px;
+    padding-bottom: 6px;
+  }
+  .indent { margin-left: 46px; }
+  .text {
+    margin-top: 6px;
+    font-size: 15px;
+    line-height: 1.42;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    color: #f3f3f3;
+  }
+  .media {
+    margin-top: 12px;
+    display: grid;
+    gap: 4px;
+    grid-template-columns: 1fr;
+    border-radius: 14px;
+    overflow: hidden;
+    border: 1px solid #2a2a2a;
+  }
+  .media.cols-2 { grid-template-columns: 1fr 1fr; }
+  .media img {
+    width: 100%; display: block; max-height: 520px; object-fit: cover;
+    background: #1a1a1a;
+  }
+  .actions {
+    margin-top: 12px;
+    display: flex;
+    gap: 18px;
+    color: #b0b0b0;
+    font-size: 13px;
+  }
+  .pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    height: 28px;
+    padding: 0 4px;
+  }
+  .pill svg {
+    width: 19px; height: 19px;
+    stroke: #d0d0d0;
+    fill: none;
+    stroke-width: 1.8;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+</style>
+</head>
+<body>
+<div id="card">
+  <div class="row1">
+    {% if post.avatar_url %}
+      <img class="avatar" src="{{ post.avatar_url }}" alt="">
+    {% else %}
+      <div class="avatar"></div>
+    {% endif %}
+    <span class="handle">{{ post.handle }}</span>
+    {% if post.time_text %}<span class="time">{{ post.time_text }}</span>{% endif %}
+    <span class="menu">···</span>
+  </div>
+
+  {% if post.text %}
+    <div class="text indent">{{ post.text }}</div>
+  {% endif %}
+
+  {% if post.media %}
+    <div class="media indent {% if post.media|length >= 2 %}cols-2{% endif %}">
+      {% for m in post.media[:4] %}
+        <img src="{{ m }}" alt="">
+      {% endfor %}
+    </div>
+  {% endif %}
+
+  <div class="actions indent">
+    <span class="pill">
+      <svg viewBox="0 0 24 24"><path d="M12 21s-7-4.5-9.5-9C.7 8.6 2.7 5 6 5c1.9 0 3.4 1 4 2.3C10.6 6 12.1 5 14 5c3.3 0 5.3 3.6 3.5 7-2.5 4.5-9.5 9-9.5 9z"/></svg>
+      {% if post.like_count is not none %}{{ post.like_count }}{% endif %}
+    </span>
+    <span class="pill">
+      <svg viewBox="0 0 24 24"><path d="M21 12c0 4.4-4 8-9 8-1.4 0-2.7-.3-3.9-.8L3 21l1.8-4.5C3.7 15 3 13.6 3 12c0-4.4 4-8 9-8s9 3.6 9 8z"/></svg>
+      {% if post.reply_count is not none %}{{ post.reply_count }}{% endif %}
+    </span>
+    <span class="pill">
+      <svg viewBox="0 0 24 24"><path d="M17 2l4 4-4 4"/><path d="M3 11V9a4 4 0 0 1 4-4h14"/><path d="M7 22l-4-4 4-4"/><path d="M21 13v2a4 4 0 0 1-4 4H3"/></svg>
+      {% if post.repost_count is not none %}{{ post.repost_count }}{% endif %}
+    </span>
+    <span class="pill">
+      <svg viewBox="0 0 24 24"><path d="M22 2L11 13"/><path d="M22 2l-7 20-4-9-9-4 20-7z"/></svg>
+    </span>
+  </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,7 @@
+<figure>
+  <img src="data:image/png;base64,{{ img_b64 }}" alt="Screenshot of {{ post.author }}'s post">
+  <figcaption class="actions">
+    <a href="data:image/png;base64,{{ img_b64 }}" download="{{ post.handle }}-{{ post.url.split('/')[-1] }}.png">Download PNG</a>
+    <a href="{{ post.url }}" target="_blank" rel="noopener noreferrer">Open on Threads</a>
+  </figcaption>
+</figure>
