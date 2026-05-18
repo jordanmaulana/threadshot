@@ -6,7 +6,7 @@ Paste a [Threads](https://www.threads.com) post URL, get a clean PNG screenshot.
 
 ## Features
 
-- Accepts `threads.com` / `threads.net` post URLs.
+- Accepts `threads.com` post URLs.
 - Renders a self-contained card (avatar + media inlined as `data:` URIs) and screenshots it via headless Chromium.
 - 10-minute in-memory cache per canonical URL.
 - Per-IP rate limiting (slowapi).
