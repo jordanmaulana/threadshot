@@ -1,82 +1,108 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Threadshot — Screenshot Threads posts</title>
-  <meta name="description" content="Paste a Threads URL, get a clean screenshot image you can share anywhere.">
-  <link rel="stylesheet" href="/static/tailwind.css">
+{% extends "_layout.html.j2" %}
+
+{% block title %}Threadshot — Threads posts, beautifully captured{% endblock %}
+
+{% block scripts %}
   <script src="https://unpkg.com/htmx.org@2.0.3"></script>
-  {% if adsense_client %}
-  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client={{ adsense_client }}"
-          crossorigin="anonymous"></script>
-  {% endif %}
-  {% if ga_measurement_id %}
-  <script async src="https://www.googletagmanager.com/gtag/js?id={{ ga_measurement_id }}"></script>
-  <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
-    gtag('config', '{{ ga_measurement_id }}');
-  </script>
-  {% endif %}
-</head>
-<body class="bg-neutral-50 text-neutral-900 antialiased">
-  <header class="max-w-3xl mx-auto px-5 pt-12 pb-2">
-    <h1 class="m-0 text-3xl font-semibold tracking-tight">Threadshot</h1>
-    <p class="mt-1.5 text-neutral-500">Paste a Threads post URL. Get a clean screenshot.</p>
-  </header>
+{% endblock %}
 
-  {% if adsense_client %}
-  <div class="max-w-3xl mx-auto px-5">
-    <ins class="adsbygoogle block" style="display:block" data-ad-client="{{ adsense_client }}"
-         data-ad-slot="0000000000" data-ad-format="auto" data-full-width-responsive="true"></ins>
-    <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+{% block body %}
+<section class="max-w-5xl mx-auto px-6 md:px-10 pt-12 md:pt-20">
+
+  <div class="grid md:grid-cols-12 gap-10 md:gap-14 items-start">
+
+    <div class="md:col-span-7">
+      <p class="eyebrow mb-5 flex items-center gap-3">
+        <span class="inline-block w-6 h-px bg-mute"></span>
+        Threads&nbsp;&rarr;&nbsp;PNG
+      </p>
+      <h1 class="font-display text-ink leading-[0.95] tracking-tight text-[clamp(2.75rem,7vw,5.5rem)]">
+        Make any Threads post
+        <em class="italic text-accent">worth&nbsp;sharing.</em>
+      </h1>
+      <p class="mt-5 max-w-[52ch] font-display italic text-[18px] leading-snug text-ink/80">
+        &ldquo;It&rsquo;s annoying that Threads share feature cuts text, so I made this.&rdquo;
+      </p>
+      <p class="mt-6 max-w-[52ch] text-[17px] leading-relaxed text-mute">
+        Paste a link from <span class="text-ink">threads.com</span>. We render the post offscreen and hand you back a crisp PNG you can drop into a deck, a story, or a screenshot grid. No watermarks, no scraped-feed clutter.
+      </p>
+
+      {% if adsense_client %}
+      <div class="mt-6">
+        <ins class="adsbygoogle block" style="display:block" data-ad-client="{{ adsense_client }}"
+             data-ad-slot="0000000000" data-ad-format="auto" data-full-width-responsive="true"></ins>
+        <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+      </div>
+      {% endif %}
+
+      <form hx-post="/shot" hx-target="#result" hx-swap="innerHTML" hx-disabled-elt="find button"
+            class="mt-10 group/form">
+        <label for="url" class="eyebrow block mb-2">Post URL</label>
+        <div class="flex flex-col sm:flex-row gap-3 items-stretch">
+          <input id="url" type="url" name="url" required
+                 placeholder="https://www.threads.com/@user/post/..."
+                 class="flex-1 min-w-0 px-4 py-3.5 text-[15px] font-sans bg-white text-ink border border-hairline rounded-xl placeholder:text-mute/70 focus:outline-none focus:border-ink focus:ring-2 focus:ring-accent/30 transition-all">
+          <button type="submit"
+                  class="group inline-flex items-center justify-center gap-2 px-6 py-3.5 text-[15px] font-semibold text-paper bg-ink rounded-xl cursor-pointer transition-all hover:bg-accent hover:translate-y-[-1px] active:translate-y-0 disabled:bg-mute disabled:cursor-not-allowed disabled:opacity-80 disabled:translate-y-0">
+            <svg class="hidden group-disabled:inline animate-spin h-4 w-4" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"/>
+              <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"/>
+            </svg>
+            <span class="group-disabled:hidden">Shoot &rarr;</span>
+            <span class="hidden group-disabled:inline">Shooting&hellip;</span>
+          </button>
+        </div>
+        {% if message %}<p class="mt-4 text-accent text-sm">{{ message }}</p>{% endif %}
+      </form>
+
+      <section id="result" class="mt-10"></section>
+    </div>
+
+    <aside class="md:col-span-5 md:pt-2">
+      <div class="border border-hairline rounded-2xl bg-paper-2/50 backdrop-blur-sm p-7">
+        <p class="eyebrow mb-5">How it works</p>
+        <ol class="space-y-5">
+          <li class="flex gap-4">
+            <span class="font-display italic text-accent text-2xl leading-none tabular-nums w-7 shrink-0">01</span>
+            <p class="text-[14.5px] text-ink leading-snug">Drop in a Threads post URL.</p>
+          </li>
+          <li class="flex gap-4">
+            <span class="font-display italic text-accent text-2xl leading-none tabular-nums w-7 shrink-0">02</span>
+            <p class="text-[14.5px] text-ink leading-snug">We fetch the post and render it in a real browser — fonts, avatars, media inlined.</p>
+          </li>
+          <li class="flex gap-4">
+            <span class="font-display italic text-accent text-2xl leading-none tabular-nums w-7 shrink-0">03</span>
+            <p class="text-[14.5px] text-ink leading-snug">You get back a sharp PNG ready to share.</p>
+          </li>
+        </ol>
+        <hr class="hairline-rule my-6">
+        <p class="text-[12px] text-mute leading-relaxed">
+          Works on public posts from <span class="text-ink">threads.com</span>. We don't store URLs or images.
+        </p>
+      </div>
+    </aside>
+
   </div>
-  {% endif %}
-
-  <main class="max-w-3xl mx-auto px-5 py-6">
-    <form hx-post="/shot" hx-target="#result" hx-swap="innerHTML" hx-disabled-elt="find button"
-          class="flex flex-wrap items-center gap-2 my-4">
-      <input type="url" name="url" required
-             placeholder="https://www.threads.com/@user/post/..."
-             class="flex-1 min-w-0 basis-80 px-3.5 py-3 text-[15px] bg-white border border-neutral-200 rounded-xl placeholder:text-neutral-400 focus:outline-none focus:ring-2 focus:ring-neutral-900 focus:border-neutral-900">
-      <button type="submit"
-              class="group inline-flex items-center justify-center gap-2 px-4 py-3 text-[15px] font-semibold text-white bg-neutral-900 rounded-xl cursor-pointer transition-colors hover:bg-neutral-800 disabled:bg-neutral-500 disabled:cursor-not-allowed disabled:opacity-70">
-        <svg class="hidden group-disabled:inline animate-spin h-4 w-4" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-          <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"/>
-          <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"/>
-        </svg>
-        <span class="group-disabled:hidden">Screenshot</span>
-        <span class="hidden group-disabled:inline">Screenshotting…</span>
-      </button>
-    </form>
-    {% if message %}<p class="text-red-700">{{ message }}</p>{% endif %}
-    <section id="result" class="mt-2"></section>
-  </main>
 
   {% if adsense_client %}
-  <div class="max-w-3xl mx-auto px-5">
+  <div class="mt-16">
     <ins class="adsbygoogle block" style="display:block" data-ad-client="{{ adsense_client }}"
          data-ad-slot="1111111111" data-ad-format="auto" data-full-width-responsive="true"></ins>
     <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
   </div>
   {% endif %}
 
-  <footer class="max-w-3xl mx-auto px-5 pb-12 pt-6 text-sm text-neutral-500">
-    <a href="/about" class="text-neutral-600 hover:text-neutral-900 underline-offset-2 hover:underline">About</a>
-    <span class="mx-1">·</span>
-    <a href="/privacy" class="text-neutral-600 hover:text-neutral-900 underline-offset-2 hover:underline">Privacy</a>
-  </footer>
+</section>
+{% endblock %}
 
-  {% if ga_measurement_id %}
-  <script>
-    document.body.addEventListener('htmx:afterOnLoad', function(evt) {
-      if (evt.detail.elt.matches('form') && evt.detail.xhr.status === 200) {
-        gtag('event', 'screenshot', { 'event_category': 'engagement' });
-      }
-    });
-  </script>
-  {% endif %}
-</body>
-</html>
+{% block end_scripts %}
+{% if ga_measurement_id %}
+<script>
+  document.body.addEventListener('htmx:afterOnLoad', function(evt) {
+    if (evt.detail.elt.matches('form') && evt.detail.xhr.status === 200) {
+      gtag('event', 'screenshot', { 'event_category': 'engagement' });
+    }
+  });
+</script>
+{% endif %}
+{% endblock %}

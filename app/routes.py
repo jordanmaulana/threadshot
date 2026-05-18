@@ -9,7 +9,7 @@ from slowapi.errors import RateLimitExceeded
 from .config import settings
 from .fetcher import Blocked, PostNotFound, fetch, parse_url
 from .ratelimit import limiter
-from .renderer import render_card, render_error, render_index, render_result
+from .renderer import render_card, render_error, render_index, render_result, render_static_page
 from .shotter import get_shotter
 
 router = APIRouter()
@@ -52,38 +52,12 @@ async def shot(request: Request, url: str = Form(...)) -> HTMLResponse:
 
 @router.get("/about", response_class=HTMLResponse)
 async def about() -> HTMLResponse:
-    body = (
-        "<h2 class='text-2xl font-semibold mt-2 mb-3'>About Threadshot</h2>"
-        "<p class='mb-3'>Threadshot turns any public Threads post into a clean PNG image you can share. "
-        "Paste the post URL on the home page and download the screenshot.</p>"
-        "<p><a href='/' class='text-neutral-700 underline-offset-2 hover:underline'>Back</a></p>"
-    )
-    return HTMLResponse(_page("About", body))
+    return HTMLResponse(render_static_page("about"))
 
 
 @router.get("/privacy", response_class=HTMLResponse)
 async def privacy() -> HTMLResponse:
-    body = (
-        "<h2 class='text-2xl font-semibold mt-2 mb-3'>Privacy</h2>"
-        "<p class='mb-3'>Threadshot does not store post URLs, generated images, or personal data. "
-        "Posts are fetched from threads.com on demand and rendered in memory. "
-        "Analytics and ads are provided by Google AdSense; see Google's policy.</p>"
-        "<p><a href='/' class='text-neutral-700 underline-offset-2 hover:underline'>Back</a></p>"
-    )
-    return HTMLResponse(_page("Privacy", body))
-
-
-def _page(title: str, body_html: str) -> str:
-    return (
-        "<!DOCTYPE html><html lang='en'><head><meta charset='utf-8'>"
-        "<meta name='viewport' content='width=device-width, initial-scale=1'>"
-        f"<title>{title} — Threadshot</title>"
-        "<link rel='stylesheet' href='/static/tailwind.css'>"
-        "</head><body class='bg-neutral-50 text-neutral-900 antialiased'>"
-        "<main class='max-w-3xl mx-auto px-5 py-10'>"
-        f"{body_html}"
-        "</main></body></html>"
-    )
+    return HTMLResponse(render_static_page("privacy"))
 
 
 def install_rate_limit_handler(app) -> None:

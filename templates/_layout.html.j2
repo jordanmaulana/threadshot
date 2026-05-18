@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block title %}Threadshot{% endblock %}</title>
+  <meta name="description" content="{% block description %}Paste a Threads URL. Get a clean PNG you can share anywhere.{% endblock %}">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/static/tailwind.css">
+  {% block scripts %}{% endblock %}
+  {% if adsense_client %}
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client={{ adsense_client }}"
+          crossorigin="anonymous"></script>
+  {% endif %}
+  {% if ga_measurement_id %}
+  <script async src="https://www.googletagmanager.com/gtag/js?id={{ ga_measurement_id }}"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', '{{ ga_measurement_id }}');
+  </script>
+  {% endif %}
+  {% block extra_head %}{% endblock %}
+</head>
+<body class="bg-paper text-ink font-sans antialiased min-h-screen flex flex-col selection:bg-accent/20 selection:text-ink">
+
+  <header class="w-full">
+    <div class="max-w-5xl mx-auto px-6 md:px-10 pt-8 flex items-center justify-between">
+      <a href="/" class="inline-flex items-center gap-2 group no-underline">
+        <span aria-hidden="true" class="block w-2.5 h-2.5 rounded-[3px] bg-ink group-hover:bg-accent transition-colors"></span>
+        <span class="font-display italic text-[22px] leading-none text-ink tracking-tight">Threadshot</span>
+      </a>
+      <nav class="flex items-center gap-6 text-[13px] text-mute">
+        <a href="/about" class="hover:text-ink transition-colors no-underline">About</a>
+        <a href="/privacy" class="hover:text-ink transition-colors no-underline">Privacy</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="flex-1 w-full">
+    {% block body %}{% endblock %}
+  </main>
+
+  <footer class="w-full mt-16">
+    <div class="max-w-5xl mx-auto px-6 md:px-10 pb-10">
+      <hr class="hairline-rule mb-6">
+      <div class="flex flex-wrap items-baseline justify-between gap-4 text-[12px] text-mute">
+        <span class="font-display italic text-[15px] text-ink">Threadshot</span>
+        <span>Paste a thread. Take its picture. Share the image.</span>
+        <span class="tabular-nums">© {{ year or 2026 }}</span>
+      </div>
+    </div>
+  </footer>
+
+  {% block end_scripts %}{% endblock %}
+</body>
+</html>

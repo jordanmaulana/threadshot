@@ -12,10 +12,12 @@ from .config import settings
 from .fetcher import Post
 
 _TEMPLATES_DIR = Path(__file__).resolve().parent.parent / "templates"
+_STATIC_DIR = Path(__file__).resolve().parent.parent / "static"
 _env = Environment(
     loader=FileSystemLoader(str(_TEMPLATES_DIR)),
     autoescape=select_autoescape(["html", "xml", "j2"]),
 )
+_TAILWIND_CSS = (_STATIC_DIR / "tailwind.css").read_text(encoding="utf-8")
 
 
 async def _inline_media(client: httpx.AsyncClient, url: str) -> str | None:
@@ -57,7 +59,7 @@ async def _post_with_inlined_media(post: Post) -> Post:
 async def render_card(post: Post) -> str:
     inlined = await _post_with_inlined_media(post)
     tpl = _env.get_template("card.html.j2")
-    return tpl.render(post=inlined)
+    return tpl.render(post=inlined, tailwind_css=_TAILWIND_CSS)
 
 
 def render_index(*, adsense_client: str = "", ga_measurement_id: str = "", message: str | None = None) -> str:
@@ -73,3 +75,8 @@ def render_result(post: Post, img_b64: str) -> str:
 def render_error(message: str) -> str:
     tpl = _env.get_template("error.html.j2")
     return tpl.render(message=message)
+
+
+def render_static_page(name: str) -> str:
+    tpl = _env.get_template(f"{name}.html.j2")
+    return tpl.render()

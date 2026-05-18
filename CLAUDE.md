@@ -22,7 +22,7 @@ make css                          # rebuild static/tailwind.css after any templa
 make css-watch                    # auto-rebuild during template edits
 ```
 
-Frontend uses Tailwind v4 compiled via `@tailwindcss/cli`. Source is [static/tailwind.src.css](static/tailwind.src.css) which `@source`s the `templates/` dir and `app/routes.py`. The output `static/tailwind.css` is **committed** to git (deploy artifact) — the Dockerfile copies it as-is, no Node in the runtime image. Re-run `make css` and commit the result after editing any Tailwind class. [templates/card.html.j2](templates/card.html.j2) is screenshot-only and intentionally NOT in Tailwind.
+Frontend uses Tailwind v4 compiled via `@tailwindcss/cli`. Source is [static/tailwind.src.css](static/tailwind.src.css) which `@source`s the `templates/` dir and `app/routes.py`. The output `static/tailwind.css` is **committed** to git (deploy artifact) — the Dockerfile copies it as-is, no Node in the runtime image. Re-run `make css` and commit the result after editing any Tailwind class. [templates/card.html.j2](templates/card.html.j2) is screenshotted offline by Playwright `set_content` (no HTTP server reachable), so `renderer.py` reads `static/tailwind.css` once at import and inlines it as a `<style>` block in the card head — keep the card self-contained and don't link `/static/tailwind.css` from it.
 
 Config via `.env` (see `.env.example`): `ADSENSE_CLIENT`, `RATE_LIMIT` (slowapi syntax e.g. `10/minute`). Other settings in [app/config.py](app/config.py): `USER_AGENT`, `MEDIA_PROXY_ALLOWED_HOSTS`.
 
