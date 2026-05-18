@@ -40,7 +40,7 @@ class Shotter:
             page = await context.new_page()
             await page.set_content(html, wait_until="networkidle")
             element = page.locator("#card")
-            return await element.screenshot(type="png", omit_background=False)
+            return await element.screenshot(type="png", omit_background=True)
         finally:
             await context.close()
 
