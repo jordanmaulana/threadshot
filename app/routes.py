@@ -17,7 +17,10 @@ router = APIRouter()
 
 @router.get("/", response_class=HTMLResponse)
 async def index() -> HTMLResponse:
-    return HTMLResponse(render_index(adsense_client=settings.adsense_client))
+    return HTMLResponse(render_index(
+        adsense_client=settings.adsense_client,
+        ga_measurement_id=settings.ga_measurement_id,
+    ))
 
 
 @router.post("/shot", response_class=HTMLResponse)

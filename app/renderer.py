@@ -60,9 +60,9 @@ async def render_card(post: Post) -> str:
     return tpl.render(post=inlined)
 
 
-def render_index(*, adsense_client: str = "", message: str | None = None) -> str:
+def render_index(*, adsense_client: str = "", ga_measurement_id: str = "", message: str | None = None) -> str:
     tpl = _env.get_template("index.html.j2")
-    return tpl.render(adsense_client=adsense_client, message=message)
+    return tpl.render(adsense_client=adsense_client, ga_measurement_id=ga_measurement_id, message=message)
 
 
 def render_result(post: Post, img_b64: str) -> str:

@@ -30,6 +30,21 @@ def test_index_renders(client):
     assert "<form" in r.text
 
 
+def test_index_no_ga_when_unset(client):
+    r = client.get("/")
+    assert "googletagmanager.com" not in r.text
+
+
+def test_index_includes_ga_snippet(client):
+    from app.config import settings
+    with patch.object(settings, "ga_measurement_id", "G-TEST123"):
+        r = client.get("/")
+    assert r.status_code == 200
+    assert "googletagmanager.com/gtag/js?id=G-TEST123" in r.text
+    assert "gtag('config', 'G-TEST123')" in r.text
+    assert "htmx:afterOnLoad" in r.text
+
+
 def test_shot_rejects_bad_url(client):
     r = client.post("/shot", data={"url": "https://example.com"})
     assert r.status_code == 422
